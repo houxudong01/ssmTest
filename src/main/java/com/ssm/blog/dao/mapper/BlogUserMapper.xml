@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.blog.dao.BlogUserDao">
+    <insert id="addUser" parameterType="BlogUser" keyProperty="id" useGeneratedKeys="true">
+        insert into BLOG_USER(USER_NAME,PASSWORD,CREATED_DATE)
+        values(#{userName},#{passWord},now())
+    </insert>
+    <resultMap id="userMap" type="BlogUser">
+        <id property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="passWord" column="password"/>
+        <result property="avatar" column="AVATAR"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="job" column="JOB"/>
+        <result property="description" column="DESCRIPTION"/>
+    </resultMap>
+    <select id="getUserByUserName" resultMap="userMap" parameterType="string">
+        select ID,USER_NAME,PASSWORD,AVATAR,NICKNAME,JOB,DESCRIPTION
+        from BLOG_USER
+        where USER_NAME=#{name}
+    </select>
+    <select id="getUserById" parameterType="int" resultMap="userMap">
+        select ID,USER_NAME,PASSWORD,AVATAR,NICKNAME,JOB,DESCRIPTION
+        from BLOG_USER
+        where ID=#{id}
+    </select>
+    <update id="updateUser" parameterType="BlogUser">
+        update BLOG_USER
+        <set>
+            USER_NAME=#{userName},AVATAR=#{avatar},NICKNAME=#{nickname},JOB=#{job},DESCRIPTION=#{description}
+        </set>
+        where ID=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.blog.dao.BlogDiaryDao">
+    <insert id="addBlogDiary" parameterType="BlogDiary">
+        insert into Blog_Diary(USER_ID,CONTENT,CREATE_DATE)
+        values(#{userId},#{content},now())
+    </insert>
+    <resultMap id="diaryMap" type="BlogDiary">
+        <id property="id" column="ID"/>
+        <result property="content" column="CONTENT"/>
+        <result property="createdDate" column="CREATE_DATE"/>
+    </resultMap>
+    <select id="getDiaryList" resultMap="diaryMap" parameterType="int">
+        select Id,USER_ID,CONTENT,CREATE_DATE
+        from Blog_Diary
+        where STATUS=1 and user_id=#{userId}
+    </select>
+</mapper>
